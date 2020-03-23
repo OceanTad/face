@@ -1,0 +1,74 @@
+
+{
+	"buildFiles" : [ "E:/work_code/camera/box_face/box_face/hxfacedetect/CMakeLists.txt" ],
+	"cleanCommands" : 
+	[
+		"D:\\DevelopTools\\android_studio\\android-sdk-windows\\android-sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cmake\\release\\armeabi-v7a --target clean"
+	],
+	"cppFileExtensions" : [ "cpp" ],
+	"libraries" : 
+	{
+		"MNN-Release-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "MNN",
+			"buildType" : "release",
+			"output" : "E:/work_code/camera/box_face/box_face/hxfacedetect/libs/armeabi-v7a/libMNN.so",
+			"toolchain" : "2130849065"
+		},
+		"MNN_CL-Release-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "MNN_CL",
+			"buildType" : "release",
+			"output" : "E:/work_code/camera/box_face/box_face/hxfacedetect/libs/armeabi-v7a/libMNN_CL.so",
+			"toolchain" : "2130849065"
+		},
+		"facedetect-Release-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "facedetect",
+			"buildCommand" : "D:\\DevelopTools\\android_studio\\android-sdk-windows\\android-sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cmake\\release\\armeabi-v7a --target facedetect",
+			"buildType" : "release",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi --gcc-toolchain=D:/DevelopTools/ndk/ndk/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64 --sysroot=D:/DevelopTools/ndk/ndk/sysroot  -DMNN_USE_LOGCAT -Dfacedetect_EXPORTS -I..\\..\\..\\..\\src\\main\\cpp\\include -I..\\..\\..\\..\\src\\main\\cpp -isystem D:\\DevelopTools\\ndk\\ndk\\sources\\cxx-stl\\llvm-libc++\\include -isystem D:\\DevelopTools\\ndk\\ndk\\sources\\android\\support\\include -isystem D:\\DevelopTools\\ndk\\ndk\\sources\\cxx-stl\\llvm-libc++abi\\include  -isystem D:/DevelopTools/ndk/ndk/sysroot/usr/include/arm-linux-androideabi -D__ANDROID_API__=21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fno-integrated-as -mthumb -mfpu=neon -Wa,--noexecstack -Wformat -Werror=format-security -std=c++11  -Os -DNDEBUG  -fPIC    -c ",
+					"src" : "E:/work_code/camera/box_face/box_face/hxfacedetect/src/main/cpp/Ultra_jni.cpp",
+					"workingDirectory" : "E:/work_code/camera/box_face/box_face/hxfacedetect/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi --gcc-toolchain=D:/DevelopTools/ndk/ndk/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64 --sysroot=D:/DevelopTools/ndk/ndk/sysroot  -DMNN_USE_LOGCAT -Dfacedetect_EXPORTS -I..\\..\\..\\..\\src\\main\\cpp\\include -I..\\..\\..\\..\\src\\main\\cpp -isystem D:\\DevelopTools\\ndk\\ndk\\sources\\cxx-stl\\llvm-libc++\\include -isystem D:\\DevelopTools\\ndk\\ndk\\sources\\android\\support\\include -isystem D:\\DevelopTools\\ndk\\ndk\\sources\\cxx-stl\\llvm-libc++abi\\include  -isystem D:/DevelopTools/ndk/ndk/sysroot/usr/include/arm-linux-androideabi -D__ANDROID_API__=21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fno-integrated-as -mthumb -mfpu=neon -Wa,--noexecstack -Wformat -Werror=format-security -std=c++11  -Os -DNDEBUG  -fPIC    -c ",
+					"src" : "E:/work_code/camera/box_face/box_face/hxfacedetect/src/main/cpp/UltraFace.cpp",
+					"workingDirectory" : "E:/work_code/camera/box_face/box_face/hxfacedetect/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi --gcc-toolchain=D:/DevelopTools/ndk/ndk/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64 --sysroot=D:/DevelopTools/ndk/ndk/sysroot  -DMNN_USE_LOGCAT -Dfacedetect_EXPORTS -I..\\..\\..\\..\\src\\main\\cpp\\include -I..\\..\\..\\..\\src\\main\\cpp -isystem D:\\DevelopTools\\ndk\\ndk\\sources\\cxx-stl\\llvm-libc++\\include -isystem D:\\DevelopTools\\ndk\\ndk\\sources\\android\\support\\include -isystem D:\\DevelopTools\\ndk\\ndk\\sources\\cxx-stl\\llvm-libc++abi\\include  -isystem D:/DevelopTools/ndk/ndk/sysroot/usr/include/arm-linux-androideabi -D__ANDROID_API__=21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fno-integrated-as -mthumb -mfpu=neon -Wa,--noexecstack -Wformat -Werror=format-security -std=c++11  -Os -DNDEBUG  -fPIC    -c ",
+					"src" : "E:/work_code/camera/box_face/box_face/hxfacedetect/src/main/cpp/net.cpp",
+					"workingDirectory" : "E:/work_code/camera/box_face/box_face/hxfacedetect/.cxx/cmake/release/armeabi-v7a"
+				}
+			],
+			"output" : "E:/work_code/camera/box_face/box_face/hxfacedetect/build/intermediates/cmake/release/obj/armeabi-v7a/libfacedetect.so",
+			"toolchain" : "2130849065"
+		},
+		"lib_opencv-Release-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "lib_opencv",
+			"buildType" : "release",
+			"output" : "E:/work_code/camera/box_face/box_face/hxfacedetect/libs/armeabi-v7a/libopencv_java3.so",
+			"toolchain" : "2130849065"
+		}
+	},
+	"toolchains" : 
+	{
+		"2130849065" : 
+		{
+			"cCompilerExecutable" : "D:/DevelopTools/ndk/ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
+			"cppCompilerExecutable" : "D:/DevelopTools/ndk/ndk/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
+		}
+	}
+}

@@ -1,0 +1,75 @@
+{
+  "variant": {
+    "module": {
+      "rootBuildGradleFolder": "E:\\work_code\\camera\\box_face\\box_face",
+      "sdkFolder": "D:\\DevelopTools\\android_studio\\android-sdk-windows\\android-sdk",
+      "isNativeCompilerSettingsCacheEnabled": false,
+      "isBuildOnlyTargetAbiEnabled": true,
+      "splitsAbiFilterSet": [],
+      "intermediatesFolder": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\build\\intermediates",
+      "gradleModulePathName": ":hxfacedetect",
+      "moduleRootFolder": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect",
+      "makeFile": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\CMakeLists.txt",
+      "buildSystem": "CMAKE",
+      "compilerSettingsCacheFolder": "E:\\work_code\\camera\\box_face\\box_face\\.cxx",
+      "cxxFolder": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx",
+      "ndkFolder": "D:\\DevelopTools\\ndk\\ndk",
+      "ndkVersion": "16.0.4293906-rc1",
+      "ndkSupportedAbiList": [
+        "ARMEABI",
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "MIPS",
+        "MIPS64",
+        "X86",
+        "X86_64"
+      ],
+      "ndkDefaultAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "cmakeToolchainFile": "."
+    },
+    "buildSystemArgumentList": [
+      "-DANDROID_ARM_NEON\u003dTRUE",
+      "-DANDROID_PLATFORM\u003dandroid-21",
+      "-DANDROID_STL\u003dc++_shared",
+      "-DMNN_OPENCL\u003dtrue"
+    ],
+    "cFlagList": [],
+    "cppFlagsList": [],
+    "variantName": "release",
+    "soFolder": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\build\\intermediates\\cmake\\release\\lib",
+    "objFolder": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\build\\intermediates\\cmake\\release\\obj",
+    "jsonFolder": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cmake\\release",
+    "gradleBuildOutputFolder": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cxx\\release",
+    "isDebuggableEnabled": false,
+    "validAbiList": [
+      "ARMEABI_V7A"
+    ],
+    "buildTargetSet": []
+  },
+  "abi": "ARMEABI_V7A",
+  "abiPlatformVersion": 19,
+  "cxxBuildFolder": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cmake\\release\\armeabi-v7a",
+  "jsonFile": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cmake\\release\\armeabi-v7a\\android_gradle_build.json",
+  "gradleBuildOutputFolder": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cxx\\release\\armeabi-v7a",
+  "objFolder": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\build\\intermediates\\cmake\\release\\obj\\armeabi-v7a",
+  "buildCommandFile": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cmake\\release\\armeabi-v7a\\build_command.txt",
+  "buildOutputFile": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cmake\\release\\armeabi-v7a\\build_output.txt",
+  "modelOutputFile": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cmake\\release\\armeabi-v7a\\build_model.json",
+  "cmake": {
+    "cmakeListsWrapperFile": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cxx\\release\\armeabi-v7a\\CMakeLists.txt",
+    "toolchainWrapperFile": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cxx\\release\\armeabi-v7a\\android_gradle_build.toolchain.cmake",
+    "buildGenerationStateFile": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cxx\\release\\armeabi-v7a\\build_generation_state.json",
+    "cacheKeyFile": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cxx\\release\\armeabi-v7a\\compiler_cache_key.json",
+    "compilerCacheUseFile": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cxx\\release\\armeabi-v7a\\compiler_cache_use.json",
+    "compilerCacheWriteFile": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cxx\\release\\armeabi-v7a\\compiler_cache_write.json",
+    "toolchainSettingsFromCacheFile": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cxx\\release\\armeabi-v7a\\compiler_settings_cache.cmake",
+    "cmakeWrappingBaseFolder": "."
+  },
+  "jsonGenerationLoggingRecordFile": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cmake\\release\\armeabi-v7a\\json_generation_record.json",
+  "compileCommandsJsonFile": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cmake\\release\\armeabi-v7a\\compile_commands.json"
+}

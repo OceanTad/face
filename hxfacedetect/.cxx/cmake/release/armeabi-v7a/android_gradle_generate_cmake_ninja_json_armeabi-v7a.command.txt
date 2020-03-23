@@ -1,0 +1,18 @@
+Executable : D:\DevelopTools\android_studio\android-sdk-windows\android-sdk\cmake\3.6.4111459\bin\cmake.exe
+arguments : 
+-HE:\work_code\camera\box_face\box_face\hxfacedetect
+-BE:\work_code\camera\box_face\box_face\hxfacedetect\.cxx\cmake\release\armeabi-v7a
+-DANDROID_ABI=armeabi-v7a
+-DANDROID_PLATFORM=android-19
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=E:\work_code\camera\box_face\box_face\hxfacedetect\build\intermediates\cmake\release\obj\armeabi-v7a
+-DCMAKE_BUILD_TYPE=Release
+-DANDROID_NDK=D:\DevelopTools\ndk\ndk
+-DCMAKE_TOOLCHAIN_FILE=D:\DevelopTools\ndk\ndk\build\cmake\android.toolchain.cmake
+-DCMAKE_MAKE_PROGRAM=D:\DevelopTools\android_studio\android-sdk-windows\android-sdk\cmake\3.6.4111459\bin\ninja.exe
+-GAndroid Gradle - Ninja
+-DANDROID_ARM_NEON=TRUE
+-DANDROID_PLATFORM=android-21
+-DANDROID_STL=c++_shared
+-DMNN_OPENCL=true
+jvmArgs : 
+

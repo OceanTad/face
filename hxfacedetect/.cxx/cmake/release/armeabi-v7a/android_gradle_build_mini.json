@@ -1,0 +1,31 @@
+{
+  "buildFiles": [
+    "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "D:\\DevelopTools\\android_studio\\android-sdk-windows\\android-sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cmake\\release\\armeabi-v7a --target clean"
+  ],
+  "libraries": {
+    "MNN-Release-armeabi-v7a": {
+      "artifactName": "MNN",
+      "abi": "armeabi-v7a",
+      "output": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\libs\\armeabi-v7a\\libMNN.so"
+    },
+    "facedetect-Release-armeabi-v7a": {
+      "artifactName": "facedetect",
+      "buildCommand": "D:\\DevelopTools\\android_studio\\android-sdk-windows\\android-sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\.cxx\\cmake\\release\\armeabi-v7a --target facedetect",
+      "abi": "armeabi-v7a",
+      "output": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\build\\intermediates\\cmake\\release\\obj\\armeabi-v7a\\libfacedetect.so"
+    },
+    "lib_opencv-Release-armeabi-v7a": {
+      "artifactName": "lib_opencv",
+      "abi": "armeabi-v7a",
+      "output": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\libs\\armeabi-v7a\\libopencv_java3.so"
+    },
+    "MNN_CL-Release-armeabi-v7a": {
+      "artifactName": "MNN_CL",
+      "abi": "armeabi-v7a",
+      "output": "E:\\work_code\\camera\\box_face\\box_face\\hxfacedetect\\libs\\armeabi-v7a\\libMNN_CL.so"
+    }
+  }
+}
