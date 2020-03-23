@@ -1,0 +1,3 @@
+E:/work_code/camera/box_face/box_face/hxface/.cxx/cmake/debug/armeabi-v7a/CMakeFiles/Tracking-lib.dir
+E:/work_code/camera/box_face/box_face/hxface/.cxx/cmake/debug/armeabi-v7a/CMakeFiles/edit_cache.dir
+E:/work_code/camera/box_face/box_face/hxface/.cxx/cmake/debug/armeabi-v7a/CMakeFiles/rebuild_cache.dir
