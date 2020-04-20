@@ -1,12 +1,12 @@
 package com.hxrainbow.faceapplication;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -17,23 +17,16 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.hxrainbow.facedetect.FaceDetectUtil;
+import static android.graphics.Bitmap.createBitmap;
 
 public class FaceCameraView extends FrameLayout implements SurfaceHolder.Callback {
 
     private SurfaceView surfaceView;
 
     private Camera camera;
+    private ICameraCallBack cameraCallBack;
+    private int cameraPosition = 1;
     private float screenProp = 1.0f;
-
-    private int pWidth = 320, pHeight = 480;
-
-    private byte[] yvu;
-    private Object object;
-    private HandlerThread handlerThread;
-    private Handler handler;
-
-    private long currentTime;
 
     public FaceCameraView(@NonNull Context context) {
         this(context, null);
@@ -66,31 +59,11 @@ public class FaceCameraView extends FrameLayout implements SurfaceHolder.Callbac
         surfaceView.getHolder().setFormat(PixelFormat.TRANSPARENT);
         surfaceView.getHolder().setKeepScreenOn(true);
         surfaceView.getHolder().addCallback(this);
-
-        object = new Object();
-        handlerThread = new HandlerThread("face_demo");
-        handlerThread.start();
-        handler = new Handler(handlerThread.getLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-                if (msg.what == 1000) {
-                    currentTime = System.currentTimeMillis();
-                    synchronized (object) {
-                        byte[] temp = Util.decodeYUV(yvu, pWidth, pHeight);
-                        FaceDetectUtil.Detect(temp, pWidth, pHeight);
-                        int lenth = FaceDetectUtil.GetResultLength();
-                        Log.e("lht", "leght:" + lenth);
-                    }
-                    Log.e("lhtF", "time:" + (System.currentTimeMillis() - currentTime));
-                }
-            }
-        };
-
     }
 
-    private void createCamera() {
+    private void createCamera(int cameraPosition) {
         if (camera == null) {
-            camera = Camera.open(0);
+            camera = Camera.open(cameraPosition);
         }
     }
 
@@ -112,52 +85,16 @@ public class FaceCameraView extends FrameLayout implements SurfaceHolder.Callbac
                 }
                 camera.setParameters(parameters);
                 camera.setPreviewDisplay(holder);
-                camera.setDisplayOrientation(0);
-
-                pHeight = previewSize.height;
-                pWidth = previewSize.width;
-                Log.e("lhtZ", "height:" + pHeight + ",width:" + pWidth);
-                yvu = new byte[pHeight * pWidth * 2];
-
-                camera.setPreviewCallback(new Camera.PreviewCallback() {
-                    @Override
-                    public void onPreviewFrame(final byte[] data, Camera camera) {
-
-//                        Log.e("lhtC", "&&&&&&&&&&&&&&&&&&&&");
-
-//                        currentTime = System.currentTimeMillis();
-
-//                        synchronized (yvu) {
-//                            System.arraycopy(data, 0, yvu, 0, data.length);
-//                        }
-//                        Log.e("lhtF", "time:" + (System.currentTimeMillis() - currentTime));
-//                        handler.removeCallbacksAndMessages(null);
-//                        handler.sendEmptyMessage(1000);
-//                        Executors.newCachedThreadPool().execute(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                synchronized (object) {
-//                                    byte[] temp = Util.decodeYUV(yvu, pWidth, pHeight);
-//                                    FaceDetectUtil.Detect(temp, pWidth, pHeight);
-//                                    int lenth = FaceDetectUtil.GetResultLength();
-//                                    Log.e("lht", "leght:" + lenth);
-//                                    FaceTrack.getInstance().faceDetect(yvu, pHeight, pWidth);
-//                                }
-//                            }
-//                        });
-
-//                        byte[] temp = Util.decodeYUV(data, pWidth, pHeight);
-//                        Log.e("lhtF", "time:" + (System.currentTimeMillis() - currentTime));
-                        FaceDetectUtil.Detect(data, pWidth, pHeight);
-                        int lenth = FaceDetectUtil.GetResultLength();
-                        Log.e("lht", "leght:" + lenth);
-//                        Log.e("lhtF", "time:" + (System.currentTimeMillis() - currentTime));
-
-                    }
-                });
+                camera.setDisplayOrientation(90);
                 camera.startPreview();
             } catch (Exception e) {
-
+                if (cameraCallBack != null) {
+                    cameraCallBack.onOpenError();
+                }
+            }
+        } else {
+            if (cameraCallBack != null) {
+                cameraCallBack.onOpenError();
             }
         }
     }
@@ -175,10 +112,77 @@ public class FaceCameraView extends FrameLayout implements SurfaceHolder.Callbac
         }
     }
 
+    public void takePhoto() {
+        if (camera != null) {
+            camera.takePicture(null, null, new Camera.PictureCallback() {
+                @Override
+                public void onPictureTaken(byte[] data, Camera camera) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    Matrix matrix = new Matrix();
+                    if (cameraPosition == 1) {
+                        matrix.setRotate(270);
+                        matrix.postScale(-1, 1);
+                    } else if (cameraPosition == 0) {
+                        matrix.setRotate(90);
+                    }
+                    bitmap = createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+//                    float realWidth = bitmap.getWidth() * width / Util.getScreenWidth();
+//                    float realHeight = bitmap.getHeight() * height / Util.getScreenHeight();
+//                    if (realHeight > realWidth) {
+//                        realHeight = realWidth;
+//                    } else {
+//                        realWidth = realHeight;
+//                    }
+//                    int startX = (int) ((bitmap.getWidth() - realWidth) / 2);
+//                    int startY = (int) (bitmap.getHeight() / Util.getScreenHeight());
+//                    bitmap = createBitmap(bitmap, startX, startY, (int) realWidth, (int) realHeight, null, false);
+                    if (cameraCallBack != null) {
+                        if (bitmap != null) {
+                            cameraCallBack.onTakePhoto(bitmap);
+                        } else {
+                            cameraCallBack.onTakeError();
+                        }
+                    }
+                    camera.startPreview();
+                }
+            });
+        } else {
+            if (cameraCallBack != null) {
+                cameraCallBack.onOpenError();
+            }
+        }
+    }
+
+    public void changeCamera() {
+        int cameraCount = 0;
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        cameraCount = Camera.getNumberOfCameras();
+        for (int i = 0; i < cameraCount; i++) {
+            Camera.getCameraInfo(i, cameraInfo);
+            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT && cameraPosition == 0) {
+                closeCamera();
+                createCamera(i);
+                if (surfaceView != null) {
+                    openCamera(surfaceView.getHolder());
+                }
+                cameraPosition = 1;
+                break;
+            }
+            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK && cameraPosition == 1) {
+                closeCamera();
+                createCamera(i);
+                if (surfaceView != null) {
+                    openCamera(surfaceView.getHolder());
+                }
+                cameraPosition = 0;
+                break;
+            }
+        }
+    }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        createCamera();
+        createCamera(cameraPosition);
     }
 
     @Override
@@ -189,6 +193,20 @@ public class FaceCameraView extends FrameLayout implements SurfaceHolder.Callbac
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         closeCamera();
+    }
+
+    public void setCameraCallBack(ICameraCallBack cameraCallBack) {
+        this.cameraCallBack = cameraCallBack;
+    }
+
+    public interface ICameraCallBack {
+
+        void onTakePhoto(Bitmap bitmap);
+
+        void onOpenError();
+
+        void onTakeError();
+
     }
 
 }

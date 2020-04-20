@@ -8,6 +8,7 @@
 #include <Tensor.hpp>
 #include <memory>
 
+#include "opencv2/opencv.hpp"
 
 class Inference_engine_tensor
 {
@@ -46,8 +47,8 @@ public:
 
     int load_param(std::string &file, int num_thread = 1);
     int set_params(int inType, int outType, float *mean, float *scale);
-    //int infer_img(cv::Mat& imgs, int dst_w, int dst_h, Inference_engine_tensor& out);
-    int infer_img(unsigned char* data, int w, int h, int channel, int dstw, int dsth, Inference_engine_tensor& out);
+    //int infer_img(cv::Mat& imgs, Inference_engine_tensor& out);
+    int infer_img(cv::Mat& imgs, Inference_engine_tensor& out);
     //int infer_imgs(std::vector<cv::Mat>& imgs, std::vector<Inference_engine_tensor>& out);
 private: 
     MNN::Interpreter* netPtr;

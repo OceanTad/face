@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <opencv2/opencv.hpp>
 #include <algorithm>
 #include <iostream>
 #include <string>
@@ -31,9 +32,10 @@ class UltraFace {
 public:
     UltraFace(std::string &mnn_path, int input_width, int input_length, int num_thread_ = 4, float score_threshold_ = 0.7, float iou_threshold_ = 0.35);
 
+    //~UltraFace();
+
     //int BilinearInterpolationCol(unsigned char * src, unsigned char * des, int srcW, int srcH, int desH);
-    int detect(unsigned char *raw_image, int width, int height, int channel, std::vector<FaceInfo> &face_list);
-    //int detect(cv::Mat &raw_image, std::vector<FaceInfo> &face_list);
+    int detect(cv::Mat &raw_image, std::vector<FaceInfo> &face_list);
     //float* scores, float* boxes
     void generateBBox(std::vector<FaceInfo> &bbox_collection,  std::vector<float> scores, std::vector<float> boxes);
     //void generateBBox(cv::Mat score, cv::Mat location, std::vector<FaceInfo>& boundingBox_, float scale=0.8);

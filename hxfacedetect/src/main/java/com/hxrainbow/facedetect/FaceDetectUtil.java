@@ -19,8 +19,7 @@ public class FaceDetectUtil {
     public static void Init(Context context) {
         //copy model
         try {
-//            copyBigDataToSD(context,"RFB-320.mnn");
-            copyBigDataToSD(context,"slim-320.mnn");
+            copyBigDataToSD(context,"RFB-320.mnn");
         } catch (IOException e) {
             e.printStackTrace();
         }

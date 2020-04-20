@@ -56,10 +56,19 @@ UltraFace::UltraFace(std::string &mnn_path,
 
 }
 
-int UltraFace::detect(unsigned char *data, int width, int height, int channel,  std::vector<FaceInfo> &face_list ) {
+int UltraFace::detect(cv::Mat &raw_image, std::vector<FaceInfo> &face_list ) {
+    if (raw_image.empty()) {
+        LOGD("raw_image image is null");
+        return -1;
+    }
 
-    image_h = height;
-    image_w = width;
+    image_h = raw_image.rows;
+    image_w = raw_image.cols;
+    cv::Mat image;
+    LOGD("----------------");
+    //cv::flip(raw_image, raw_image, 1);
+    cv::resize(raw_image, image, cv::Size(in_w, in_h));
+
     Inference_engine_tensor  out;
 
 
@@ -70,7 +79,17 @@ int UltraFace::detect(unsigned char *data, int width, int height, int channel,  
     string boxes = "boxes";
     out.add_name(boxes);
 
-    ultra_net.infer_img(data, width, height, channel, in_w, in_h, out);
+
+    ultra_net.infer_img(image, out);
+    // get output data
+
+//    for(int i=0 ; i < 1000; i++)
+//    {
+//        LOGD("score11 = %f", out.score(0)[i  ]);
+//        if (out.score(0)[i * 2 + 1 ] > score_threshold) {
+//            LOGD("score = %f", out.score(0)[i * 2 + 1 ]);
+//        }
+//    }
 
     std::vector<FaceInfo> bbox_collection;
     generateBBox(bbox_collection, out.score(0) , out.score(1));
@@ -78,6 +97,27 @@ int UltraFace::detect(unsigned char *data, int width, int height, int channel,  
     nms(bbox_collection, face_list);
     return 0;
 }
+//void UltraFace::generateBBox(std::vector<FaceInfo> &bbox_collection, float* scores, float* boxes) {
+//    for (int i = 0; i < num_anchors; i++) {
+//        if (scores[i * 2 + 1 ] > score_threshold) {
+//            //LOGD("score = %f",scores[i * 2 + 1 ]);
+//
+//            FaceInfo rects;
+//            float x_center = boxes[i * 4] * center_variance * priors[i][2] + priors[i][0];
+//            float y_center = boxes[i * 4 + 1] * center_variance * priors[i][3] + priors[i][1];
+//            float w = exp(boxes[i * 4 + 2] * size_variance) * priors[i][2];
+//            float h = exp(boxes[i * 4 + 3] * size_variance) * priors[i][3];
+//
+//            rects.x1 = clip(x_center - w / 2.0, 1) * image_w;
+//            rects.y1 = clip(y_center - h / 2.0, 1) * image_h;
+//            rects.x2 = clip(x_center + w / 2.0, 1) * image_w;
+//            rects.y2 = clip(y_center + h / 2.0, 1) * image_h;
+//            rects.score = clip(scores[i * 2 + 1 ], 1);
+//
+//            bbox_collection.push_back(rects);
+//        }
+//    }
+//}
 
 void UltraFace::generateBBox(std::vector<FaceInfo> &bbox_collection, std::vector<float> scores, std::vector<float> boxes) {
     for (int i = 0; i < num_anchors; i++) {
@@ -98,7 +138,6 @@ void UltraFace::generateBBox(std::vector<FaceInfo> &bbox_collection, std::vector
 
             bbox_collection.push_back(rects);
         }
-
     }
 }
 

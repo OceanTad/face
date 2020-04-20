@@ -4,8 +4,6 @@
 #include <string>
 #include <vector>
 #include "UltraFace.hpp"
-#include <opencv2/opencv.hpp>
-
 
 #define TAG "FaceSDKNative"
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, TAG, __VA_ARGS__)
@@ -40,13 +38,17 @@ Java_com_hxrainbow_facedetect_FaceSDKNative_FaceDetectionModelInit(JNIEnv *env, 
 
     string tFaceModelDir = faceDetectionModelPath;
     string tLastChar = tFaceModelDir.substr(tFaceModelDir.length()-1, 1);
-
+    //adjust dir
+//    if ("\\" == tLastChar) {
+//        tFaceModelDir = tFaceModelDir.substr(0, tFaceModelDir.length() - 1) + "/";
+//    } else if (tLastChar != "/") {
+//        tFaceModelDir += "/";
+//    }
     //RFB-320-quant-ADMM-32
-    //RFB-320-quant-KL-5792
-    string str = tFaceModelDir + "slim-320.mnn";
+    string str = tFaceModelDir + "RFB-320.mnn";
 
     //ultra = new UltraFace(tFaceModelDir+ "RFB-320.bin", tFaceModelDir+ "RFB-320.param",  320, 4, 0.7);
-    ultra = new  UltraFace(str, 240, 160, 8, 0.65 ); // config model input
+    ultra = new  UltraFace(str, 320, 240, 4, 0.65 ); // config model input
 
     env->ReleaseStringUTFChars(faceDetectionModelPath_, faceDetectionModelPath);
     detection_sdk_init_ok = true;
@@ -63,14 +65,14 @@ Java_com_hxrainbow_facedetect_FaceSDKNative_FaceDetect(JNIEnv *env, jobject inst
         return NULL;
     }
 
-//    int tImageDateLen = env->GetArrayLength(imageDate_);
-//    if(imageChannel == tImageDateLen / imageWidth / imageHeight){
-//        LOGD("imgW=%d, imgH=%d,imgC=%d",imageWidth,imageHeight,imageChannel);
-//    }
-//    else{
-//        LOGD("img data format error");
-//        return NULL;
-//    }
+    int tImageDateLen = env->GetArrayLength(imageDate_);
+    if(imageChannel == tImageDateLen / imageWidth / imageHeight){
+        LOGD("imgW=%d, imgH=%d,imgC=%d",imageWidth,imageHeight,imageChannel);
+    }
+    else{
+        LOGD("img data format error");
+        return NULL;
+    }
 
     jbyte *imageDate = env->GetByteArrayElements(imageDate_, NULL);
     if (NULL == imageDate){
@@ -83,28 +85,39 @@ Java_com_hxrainbow_facedetect_FaceSDKNative_FaceDetect(JNIEnv *env, jobject inst
         return NULL;
     }
 
-    std::vector<FaceInfo> face_info;
-    cv::Mat image(imageHeight + imageHeight / 2, imageWidth, CV_8UC1, (unsigned char *) imageDate);
-    cv::Mat mBgr;
-//    cv::cvtColor(image, mBgr, CV_YUV2RGB);
-    cv::cvtColor(image, mBgr, CV_YUV2RGB_NV21);
-    ultra ->detect(mBgr.data , imageWidth, imageHeight, 3,  face_info );
+    //TODO 通道需测试
+    cv::Mat srcmatimg;
+    unsigned char *faceImageCharDate = (unsigned char*)imageDate;
+    if(imageChannel==3)
+    {
+        cv::Mat temp_mat(imageHeight, imageWidth, CV_8UC3, faceImageCharDate);
+        cvtColor(temp_mat, srcmatimg, CV_RGB2BGR);
+    }else if(imageChannel==4){
 
-//    std::vector<FaceInfo> face_info;
-//
-//    ultra ->detect((unsigned char*)imageDate , imageWidth, imageHeight, imageChannel,  face_info );
+        cv::Mat temp_mat(imageHeight, imageWidth, CV_8UC4, faceImageCharDate);
+        cvtColor(temp_mat, srcmatimg, CV_RGBA2BGR);
+    }else{
+        LOGD("img data format error, channel just support 3 or 4");
+        return NULL;
+    }
+
+    //ultra->SetMinFace(120);
+
+    std::vector<FaceInfo> face_info;
+
+    ultra ->detect(srcmatimg, face_info);
 
     int32_t num_face = static_cast<int32_t>(face_info.size());
 
-    int out_size = 1+num_face*9;
+    int out_size = 1+num_face*4;
     int *allfaceInfo = new int[out_size];
     allfaceInfo[0] = num_face;
     for (int i=0; i<num_face; i++) {
 
-        allfaceInfo[9*i+1] = face_info[i].x1;//left
-        allfaceInfo[9*i+2] = face_info[i].y1;//top
-        allfaceInfo[9*i+3] = face_info[i].x2;//right
-        allfaceInfo[9*i+4] = face_info[i].y2;//bottom
+        allfaceInfo[4*i+1] = face_info[i].x1;//left
+        allfaceInfo[4*i+2] = face_info[i].y1;//top
+        allfaceInfo[4*i+3] = face_info[i].x2;//right
+        allfaceInfo[4*i+4] = face_info[i].y2;//bottom
 
     }
 
