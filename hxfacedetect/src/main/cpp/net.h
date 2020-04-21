@@ -8,7 +8,6 @@
 #include <Tensor.hpp>
 #include <memory>
 
-
 class Inference_engine_tensor
 {
 public:
@@ -22,20 +21,14 @@ public:
     {
         layer_name.push_back(layer);
     }
-    std::vector<float> score(int idx)
+    std::shared_ptr<float> score(int idx)
     {
         return out_feat[idx];
     }
 
-//    float* score(int idx)
-//    {
-//        return (float *)out_feat[idx].data;
-//    }
-
 public:
     std::vector<std::string> layer_name;
-    //std::vector<cv::Mat> out_feat;
-    std::vector<std::vector<float>> out_feat;
+    std::vector<std::shared_ptr<float>> out_feat;
 };
 
 class Inference_engine
@@ -46,9 +39,7 @@ public:
 
     int load_param(std::string &file, int num_thread = 1);
     int set_params(int inType, int outType, float *mean, float *scale);
-    //int infer_img(cv::Mat& imgs, int dst_w, int dst_h, Inference_engine_tensor& out);
     int infer_img(unsigned char* data, int w, int h, int channel, int dstw, int dsth, Inference_engine_tensor& out);
-    //int infer_imgs(std::vector<cv::Mat>& imgs, std::vector<Inference_engine_tensor>& out);
 private: 
     MNN::Interpreter* netPtr;
 	MNN::Session* sessionPtr;

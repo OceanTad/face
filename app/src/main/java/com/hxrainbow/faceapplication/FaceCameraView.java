@@ -4,9 +4,6 @@ import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -27,13 +24,6 @@ public class FaceCameraView extends FrameLayout implements SurfaceHolder.Callbac
     private float screenProp = 1.0f;
 
     private int pWidth = 320, pHeight = 480;
-
-    private byte[] yvu;
-    private Object object;
-    private HandlerThread handlerThread;
-    private Handler handler;
-
-    private long currentTime;
 
     public FaceCameraView(@NonNull Context context) {
         this(context, null);
@@ -67,25 +57,6 @@ public class FaceCameraView extends FrameLayout implements SurfaceHolder.Callbac
         surfaceView.getHolder().setKeepScreenOn(true);
         surfaceView.getHolder().addCallback(this);
 
-        object = new Object();
-        handlerThread = new HandlerThread("face_demo");
-        handlerThread.start();
-        handler = new Handler(handlerThread.getLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-                if (msg.what == 1000) {
-                    currentTime = System.currentTimeMillis();
-                    synchronized (object) {
-                        byte[] temp = Util.decodeYUV(yvu, pWidth, pHeight);
-                        FaceDetectUtil.Detect(temp, pWidth, pHeight);
-                        int lenth = FaceDetectUtil.GetResultLength();
-                        Log.e("lht", "leght:" + lenth);
-                    }
-                    Log.e("lhtF", "time:" + (System.currentTimeMillis() - currentTime));
-                }
-            }
-        };
-
     }
 
     private void createCamera() {
@@ -116,43 +87,13 @@ public class FaceCameraView extends FrameLayout implements SurfaceHolder.Callbac
 
                 pHeight = previewSize.height;
                 pWidth = previewSize.width;
-                Log.e("lhtZ", "height:" + pHeight + ",width:" + pWidth);
-                yvu = new byte[pHeight * pWidth * 2];
 
                 camera.setPreviewCallback(new Camera.PreviewCallback() {
                     @Override
                     public void onPreviewFrame(final byte[] data, Camera camera) {
-
-//                        Log.e("lhtC", "&&&&&&&&&&&&&&&&&&&&");
-
-//                        currentTime = System.currentTimeMillis();
-
-//                        synchronized (yvu) {
-//                            System.arraycopy(data, 0, yvu, 0, data.length);
-//                        }
-//                        Log.e("lhtF", "time:" + (System.currentTimeMillis() - currentTime));
-//                        handler.removeCallbacksAndMessages(null);
-//                        handler.sendEmptyMessage(1000);
-//                        Executors.newCachedThreadPool().execute(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                synchronized (object) {
-//                                    byte[] temp = Util.decodeYUV(yvu, pWidth, pHeight);
-//                                    FaceDetectUtil.Detect(temp, pWidth, pHeight);
-//                                    int lenth = FaceDetectUtil.GetResultLength();
-//                                    Log.e("lht", "leght:" + lenth);
-//                                    FaceTrack.getInstance().faceDetect(yvu, pHeight, pWidth);
-//                                }
-//                            }
-//                        });
-
-//                        byte[] temp = Util.decodeYUV(data, pWidth, pHeight);
-//                        Log.e("lhtF", "time:" + (System.currentTimeMillis() - currentTime));
                         FaceDetectUtil.Detect(data, pWidth, pHeight);
                         int lenth = FaceDetectUtil.GetResultLength();
                         Log.e("lht", "leght:" + lenth);
-//                        Log.e("lhtF", "time:" + (System.currentTimeMillis() - currentTime));
-
                     }
                 });
                 camera.startPreview();

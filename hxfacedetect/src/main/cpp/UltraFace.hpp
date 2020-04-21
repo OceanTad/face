@@ -13,8 +13,6 @@
 #include <memory>
 #include "net.h"
 
-//#include "Bbox.h"
-
 #define num_featuremap 4
 #define hard_nms 1
 #define blending_nms 2 /* mix nms was been proposaled in paper blaze face, aims to minimize the temporal jitter*/
@@ -31,20 +29,16 @@ class UltraFace {
 public:
     UltraFace(std::string &mnn_path, int input_width, int input_length, int num_thread_ = 4, float score_threshold_ = 0.7, float iou_threshold_ = 0.35);
 
-    //int BilinearInterpolationCol(unsigned char * src, unsigned char * des, int srcW, int srcH, int desH);
+    //~UltraFace();
+
     int detect(unsigned char *raw_image, int width, int height, int channel, std::vector<FaceInfo> &face_list);
-    //int detect(cv::Mat &raw_image, std::vector<FaceInfo> &face_list);
-    //float* scores, float* boxes
-    void generateBBox(std::vector<FaceInfo> &bbox_collection,  std::vector<float> scores, std::vector<float> boxes);
-    //void generateBBox(cv::Mat score, cv::Mat location, std::vector<FaceInfo>& boundingBox_, float scale=0.8);
+
+    void generateBBox(std::vector<FaceInfo> &bbox_collection,  float* scores, float* boxes);
 
     void nms(std::vector<FaceInfo> &input, std::vector<FaceInfo> &output, int type = blending_nms);
 
 private:
     Inference_engine ultra_net;
-//    std::shared_ptr<MNN::Interpreter> ultraface_interpreter;
-//    MNN::Session *ultraface_session = nullptr;
-//    MNN::Tensor *input_tensor = nullptr;
 
     int num_thread;
     int image_w;
@@ -57,12 +51,8 @@ private:
     float score_threshold;
     float iou_threshold;
 
-//
     float mean_vals[3] = {127, 127, 127};
     float norm_vals[3] = {1.0 / 128, 1.0 / 128, 1.0 / 128};
-
-//    std::vector<float> mean_vals{ 127.5, 127.5, 127.5 };
-//    std::vector<float> norm_vals{ 0.0078125, 0.0078125, 0.0078125 };
 
     const float center_variance = 0.1;
     const float size_variance = 0.2;

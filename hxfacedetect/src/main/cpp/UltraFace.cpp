@@ -51,21 +51,20 @@ UltraFace::UltraFace(std::string &mnn_path,
     num_anchors = priors.size();
 
     ultra_net.load_param(mnn_path, num_thread);
-    ultra_net.set_params(1, 1, mean_vals, norm_vals);
-
+    ultra_net.set_params(0, 1, mean_vals, norm_vals);
 
 }
 
-int UltraFace::detect(unsigned char *data, int width, int height, int channel,  std::vector<FaceInfo> &face_list ) {
+int UltraFace::detect(unsigned char *data, int width, int height, int channel, std::vector<FaceInfo> &face_list ) {
+
 
     image_h = height;
     image_w = width;
-    Inference_engine_tensor  out;
 
+    Inference_engine_tensor  out;
 
     string scores = "scores";
     out.add_name(scores);
-
 
     string boxes = "boxes";
     out.add_name(boxes);
@@ -73,16 +72,15 @@ int UltraFace::detect(unsigned char *data, int width, int height, int channel,  
     ultra_net.infer_img(data, width, height, channel, in_w, in_h, out);
 
     std::vector<FaceInfo> bbox_collection;
-    generateBBox(bbox_collection, out.score(0) , out.score(1));
+    generateBBox(bbox_collection, out.score(0).get() , out.score(1).get());
     //LOGD("bbox_collection == %d", bbox_collection.size());
     nms(bbox_collection, face_list);
     return 0;
 }
 
-void UltraFace::generateBBox(std::vector<FaceInfo> &bbox_collection, std::vector<float> scores, std::vector<float> boxes) {
+void UltraFace::generateBBox(std::vector<FaceInfo> &bbox_collection, float* scores, float* boxes) {
     for (int i = 0; i < num_anchors; i++) {
         if (scores[i * 2 + 1 ] > score_threshold) {
-            //LOGD("score = %f",scores[i * 2 + 1 ]);
 
             FaceInfo rects;
             float x_center = boxes[i * 4] * center_variance * priors[i][2] + priors[i][0];
@@ -98,7 +96,6 @@ void UltraFace::generateBBox(std::vector<FaceInfo> &bbox_collection, std::vector
 
             bbox_collection.push_back(rects);
         }
-
     }
 }
 
@@ -106,7 +103,7 @@ void UltraFace::nms(std::vector<FaceInfo> &input, std::vector<FaceInfo> &output,
     std::sort(input.begin(), input.end(), [](const FaceInfo &a, const FaceInfo &b) { return a.score > b.score; });
 
     int box_num = input.size();
-    //LOGD("box_num == %d",box_num);
+
     std::vector<int> merged(box_num, 0);
 
     for (int i = 0; i < box_num; i++) {

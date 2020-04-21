@@ -5,8 +5,6 @@
 #include <vector>
 #include "UltraFace.hpp"
 #include <opencv2/opencv.hpp>
-
-
 #define TAG "FaceSDKNative"
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, TAG, __VA_ARGS__)
 
@@ -40,13 +38,16 @@ Java_com_hxrainbow_facedetect_FaceSDKNative_FaceDetectionModelInit(JNIEnv *env, 
 
     string tFaceModelDir = faceDetectionModelPath;
     string tLastChar = tFaceModelDir.substr(tFaceModelDir.length()-1, 1);
-
+    //RFB-320
     //RFB-320-quant-ADMM-32
     //RFB-320-quant-KL-5792
-    string str = tFaceModelDir + "slim-320.mnn";
-
-    //ultra = new UltraFace(tFaceModelDir+ "RFB-320.bin", tFaceModelDir+ "RFB-320.param",  320, 4, 0.7);
-    ultra = new  UltraFace(str, 240, 160, 8, 0.65 ); // config model input
+    //slim-320
+    //slim-320-quant-ADMM-50 
+    //量化模型需要使用CPU方式 net.cpp中修改 sch_config.type = (MNNForwardType)MNN_FORWARD_CPU
+    // change names
+    string str = tFaceModelDir + "slim-320-quant-ADMM-50.mnn";
+    // 240 180
+    ultra = new  UltraFace(str, 240, 160, 4, 0.65 ); // config model input
 
     env->ReleaseStringUTFChars(faceDetectionModelPath_, faceDetectionModelPath);
     detection_sdk_init_ok = true;
@@ -91,8 +92,8 @@ Java_com_hxrainbow_facedetect_FaceSDKNative_FaceDetect(JNIEnv *env, jobject inst
     ultra ->detect(mBgr.data , imageWidth, imageHeight, 3,  face_info );
 
 //    std::vector<FaceInfo> face_info;
-//
-//    ultra ->detect((unsigned char*)imageDate , imageWidth, imageHeight, imageChannel,  face_info );
+//    //detect face
+//    ultra ->detect((unsigned char*)imageDate, imageWidth, imageHeight, imageChannel, face_info );
 
     int32_t num_face = static_cast<int32_t>(face_info.size());
 
